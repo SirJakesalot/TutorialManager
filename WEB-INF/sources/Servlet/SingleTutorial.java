@@ -1,54 +1,56 @@
-import tutorialdb_model.DataSource;
-import tutorialdb_model.Comment;
+import tutorialdb_model.DataModel;
 import tutorialdb_model.Tutorial;
 
-import java.io.*;
-import java.net.*;
-import java.sql.*;
-import java.text.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
+@WebServlet("/tutorial")
 public class SingleTutorial extends HttpServlet {
 
-    // If http GET, populate an ArrayList with all Tutorial objects and redirect to the tutorials.jsp page
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
             String tutorial_id = request.getParameter("tutorial_id");
+
             // Invalid tutorial id
             if (tutorial_id == null || tutorial_id.length() == 0) {
+                DataModel.log("WARNING", "Single Tutorial - Absent tutorial id");
                 response.sendRedirect("");
                 return;
             }
-            Tutorial tutorial = new Tutorial(tutorial_id);
+            
+            // Parameters for the search query
+            ArrayList<String> statement_parameters = new ArrayList<String>();
+            statement_parameters.add(tutorial_id);
+
+            DataModel dm = new DataModel();
+            ArrayList<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_ID, statement_parameters);
+            dm.closeConnection();
+
             // Tutorial id doesn't exist
-            if (tutorial.id() == null) {
+            if (tutorials == null) {
+                DataModel.log("WARNING", "Single Tutorial - Invalid tutorial id");
                 response.sendRedirect("");
                 return;
             }
 
+            // Tell Facebook to listen/remember for comments on this page
             String fbdata_url = request.getRequestURL() + "?" + request.getQueryString();
              
-            request.setAttribute("tutorial", tutorial);
+            request.setAttribute("tutorial", tutorials.get(0));
             request.setAttribute("fbdata_url", fbdata_url);
-            
-            request.getRequestDispatcher("jsp/single_tutorial.jsp").forward(request,response);
+            request.getRequestDispatcher("jsp/tutorial.jsp").forward(request,response);
 
         } catch (Exception e) {
-
-            response.setContentType("text/html");    // Response mime type
-
-            // Output stream to STDOUT
-            PrintWriter out = response.getWriter();
-            out.println("<HTML><HEAD><TITLE>SingleTutorial Error</TITLE></HEAD>");
-            out.println(e.toString());
-            DataSource.logError("SingleTutorial doGet", e);
+            DataModel.log("ERROR", "SingleTutorial", e);
         } 
     }
 
-    // Same as http GET
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doGet(request, response);
     }

@@ -1,5 +1,5 @@
 <%@ include file="header.jsp" %>
-  <h1>Admin Dashboard</h1>
+  <h1 style="text-align: center;">Admin Dashboard</h1>
   <p id="msg" class="success"></p>
   <center>
   <select id="select_id" class="dashboard_select" onchange="getTutorialById(this.value);">
@@ -30,9 +30,9 @@
   </table>
   <script>
     var context = "${context}";
-    var dashboard_select_url = context + "/_dashboard_select";
-    var dashboard_update_url = context + "/_dashboard_update";
-    var dashboard_delete_url = context + "/_dashboard_delete";
+    var dashboard_select_url = context + "/dashboard_select";
+    var dashboard_update_url = context + "/dashboard_update";
+    var dashboard_delete_url = context + "/dashboard_delete";
 
     /*
         AJAX Calls

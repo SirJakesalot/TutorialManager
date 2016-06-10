@@ -106,13 +106,16 @@ ul.navigation {
 }
 li.left {
     float: left;    
+    border-right: 1px solid #DFF69B;
 }
 li.right {
     float: right;
+    border-left: 1px solid #DFF69B;
 }
 ul.navigation li a {
+    font-weight: bold;
     display: block;
-    color: white;
+    color: black;
     text-align: center;
     padding: 12px 14px;
     font-size: 1.1em;
@@ -124,9 +127,10 @@ div.content {
     padding-left: 5px;
 }
 div.content pre {
+    padding: 0px;
+    margin: 6px;
     overflow-x: auto;
 }
-    
 
 select.dashboard_select {
     text-align: center;
@@ -137,8 +141,7 @@ select.dashboard_select {
 }
 
 table.tutorial_table {
-    margin: auto;
-    width: 40%;
+    width: auto;
     border-collapse: collapse;
     background: white;
     border: 1px solid black;
@@ -159,7 +162,6 @@ table.dashboard_tutorial {
     background-color: #A7C942;
 }
 table.dashboard_tutorial td {
-    min-width:80%;
     border: 1px solid black;
     font-size: 1em;
     padding: 5px 20px 5px 5px;
@@ -168,5 +170,4 @@ table.dashboard_tutorial th {
     border: 1px solid black;
     width:80px;
     font-size: 1.3em;
-    color: #ffffff;
 }

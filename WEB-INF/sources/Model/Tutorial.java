@@ -1,20 +1,22 @@
 package tutorialdb_model;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 public class Tutorial {
-    // May need to may the id an int
+    // Tutorial variables
     private String id;
     private String title;
     private String content;
 
-    public Tutorial(String id, String title, String content) {
-        this.id = id;
-        this.title = title;
-        this.content = content;
-    }
+    // Query statements that are performed on the database
+    public static final String SELECT = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials;";
+    public static final String SELECT_ID = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE id=? LIMIT 1;";
+    public static final String SELECT_TITLE = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE title=? LIMIT 1;";
+    public static final String DELETE_ID = "DELETE FROM tutorials WHERE id=?;";
+    public static final String INSERT = "INSERT INTO tutorials(title,content) VALUES (?,COMPRESS(?));"; 
+    public static final String UPDATE_ID = "UPDATE tutorials SET title=?,content=COMPRESS(?) WHERE id=?;"; 
 
     public Tutorial(ResultSet rs) {
         try {
@@ -22,32 +24,7 @@ public class Tutorial {
             this.title = rs.getString("title");
             this.content = rs.getString("content");
         } catch (SQLException se) {
-            DataSource.logError("ERROR: Tutorial resultset", se);
-        }
-    }
-
-    public Tutorial(String tutorial_id) {
-        String query = "SELECT id,title,UNCOMPRESS(content) AS content FROM tutorials WHERE id=?;";
-        // Construct query execution parameters
-        ArrayList<String> statement_parameters = new ArrayList<String>();
-        statement_parameters.add(tutorial_id);
-
-        // Manages opening/closing the connections to the database
-        DataSource ds = new DataSource();
-        // Open a connection and execute the query
-        ds.executeQuery(query, statement_parameters);
-        try {
-            // If the query was not empty
-            if (ds.rs.isBeforeFirst()) {
-                ds.rs.next();
-                this.id = ds.rs.getString("id");
-                this.title = ds.rs.getString("title");
-                this.content = ds.rs.getString("content");
-            }
-        } catch (SQLException se) {
-            DataSource.logError("ERROR: Tutorial tutorial_id", se);
-        } finally {
-            ds.closeQuery();
+            DataModel.log("ERROR", "Tutorial resultset", se);
         }
     }
 
@@ -61,6 +38,7 @@ public class Tutorial {
     public String title(String new_title) { title = new_title; return title(); }
     public String content(String new_content) { content = new_content; return content(); }
 
+    // Converts the Tutorial object to JSON while escaping special characters in the content
     public String toJSON() {
         return "{\"id\":\"" + id + "\",\"title\":\"" + title + "\",\"content\":\"" + StringEscapeUtils.escapeJava(content) + "\"}";
     }

@@ -10,15 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet("/upload")
-public class Upload extends HttpServlet {
+@WebServlet("/dashboard")
+public class Dashboard extends HttpServlet {
 
-    // Simple forward to the upload jsp
-    // TODO: Get space available
+    // Fetches tutorials from the database
+    // TODO: Only fetch the tutorial id and title. Do not need the content
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher("jsp/upload.jsp").forward(request,response);
+
+        DataModel dm = new DataModel();
+        ArrayList<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT, null);
+        dm.closeConnection();
+
+        request.setAttribute("tutorials", tutorials);
+        request.getRequestDispatcher("jsp/dashboard.jsp").forward(request,response);
     }
 
+    // Deletes tutorial from the database and prints a JSON message
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doGet(request,response);
     }

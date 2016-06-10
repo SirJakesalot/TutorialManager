@@ -1,8 +1,10 @@
 <%@ include file="header.jsp" %>
   <h1>File Upload</h1>
   <p>${message}</p>
-  <form method="POST" action="Upload" enctype="multipart/form-data">
-    Select file for upload: <input type="file" name="file" size="60" />
-    <input type="submit" value="Upload" />
+  <div style="text-align: center;width: 15%;">
+  <form method="POST" action="file_upload" enctype="multipart/form-data">
+    <input type="file" name="file" size="60" />
+    <input type="submit" value="Upload"/>
   </form>
+  </div>
 <%@ include file="footer.jsp" %>

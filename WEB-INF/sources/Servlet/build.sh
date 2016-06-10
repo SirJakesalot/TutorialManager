@@ -4,7 +4,7 @@ cd ../Model/
 ./build.sh
 cd ../Servlet/
 
-FOLDER=JakesTutorials
+FOLDER=TutorialManager
 ROOT_DIR=/var/lib/tomcat7/webapps/$FOLDER/WEB-INF
 LIB_FILES=$ROOT_DIR/lib/*
 CURRENT_DIR=$ROOT_DIR/sources/Servlet/
