@@ -13,6 +13,9 @@ body {
 html {
     overflow-y: auto;
 }
+h1 {
+    text-align: center;
+}
 h1,h2,h3,h4,h5,h6 {
     font-family: Cambria, Georgia, serif;
     padding-top: 15px;
@@ -123,13 +126,21 @@ ul.navigation li a {
 ul.navigation li a:hover {
     background-color: #98bf21;
 }
+div.upload {
+    text-align: center;
+    width: 200px;
+    margin: auto;
+}
 div.content {
     padding-left: 5px;
+    margin: auto;
+    width: 70%;
 }
 div.content pre {
     padding: 0px;
     margin: 6px;
     overflow-x: auto;
+    max-height: 200px;
 }
 
 select.dashboard_select {
@@ -146,6 +157,7 @@ table.tutorial_table {
     background: white;
     border: 1px solid black;
     background-color: #A7C942;
+    margin: auto;
 }
 table.tutorial_table td {
     min-width:80%;
