@@ -15,7 +15,7 @@
   <script type='text/javascript' language="javascript" src="${context}/javascript/jquery.min.js"></script>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
   <link rel="stylesheet" href="${context}/css/style.css" type="text/css" media="screen, projection"/>
-  <title>Jakes Tutorials</title>
+  <title>Tutorial Manager</title>
 </head>
 
 <body>

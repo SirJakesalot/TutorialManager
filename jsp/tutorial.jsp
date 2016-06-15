@@ -3,5 +3,5 @@
   <!-- Removing the br tags from content -->
   <div class="content">${fn:replace(tutorial.content(), "\\n","")}</div>
   <hr>
-  <div class="fb-comments" data-href="${fbdata_url}" data-width="700"></div>
+  <center><div class="fb-comments" data-href="${fbdata_url}" data-width="700"></div></center>
 <%@ include file="footer.jsp" %>
