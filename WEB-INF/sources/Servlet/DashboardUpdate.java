@@ -20,9 +20,10 @@ public class DashboardUpdate extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            String tutorial_id = request.getParameter("tutorial_id");
-            String tutorial_title = request.getParameter("tutorial_title");
-            String tutorial_content = request.getParameter("tutorial_content");
+            String tutorial_id          = request.getParameter("tutorial_id");
+            String tutorial_category_id = request.getParameter("tutorial_category_id");
+            String tutorial_title       = request.getParameter("tutorial_title");
+            String tutorial_content     = request.getParameter("tutorial_content");
 
             // Invalid tutorial id
             ArrayList<String> statement_parameters = new ArrayList<String>();
@@ -37,10 +38,12 @@ public class DashboardUpdate extends HttpServlet {
             // else update an existing tutorial
             if (tutorial_id.equals("-1")) {
                 update = Tutorial.INSERT;
+                statement_parameters.add(tutorial_category_id);
                 statement_parameters.add(tutorial_title);
                 statement_parameters.add(tutorial_content);
             } else {
                 update = Tutorial.UPDATE_ID;
+                statement_parameters.add(tutorial_category_id);
                 statement_parameters.add(tutorial_title);
                 statement_parameters.add(tutorial_content);
                 statement_parameters.add(tutorial_id);

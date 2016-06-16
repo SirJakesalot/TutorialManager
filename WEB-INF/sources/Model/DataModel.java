@@ -115,7 +115,7 @@ public class DataModel {
     }
 
     // Return the number of database entries for the given query
-    public int getQueryCount(String query, ArrayList<String> statement_parameters) {
+    public int getCountQuery(String query, ArrayList<String> statement_parameters) {
         int count = 0;
         // Open a connection and execute the query
         executeQuery(query, statement_parameters);
@@ -126,7 +126,7 @@ public class DataModel {
                 count = rs.getInt(1);
             }
         } catch (SQLException se) {
-            log("ERROR", "DataModel getQueryCount", se);
+            log("ERROR", "DataModel getCountQuery", se);
         }
         return count;
     }
@@ -139,8 +139,19 @@ public class DataModel {
         try {
             // If the query was not empty
             if (rs.isBeforeFirst()) {
+                // Create tutorial objects
                 while (rs.next()) {
                     tutorials.add(new Tutorial(rs));
+                }
+                // Add category objects to each tutorial
+                for (Tutorial tutorial: tutorials) {
+                    // Clear the ResultSet and Statement
+                    closeStatement();
+                    // Construct parameters for category query
+                    ArrayList<String> category_statement_parameters = new ArrayList<String>();
+                    category_statement_parameters.add(tutorial.id());
+                    // Add ArrayList of categories to the tutorial object
+                    tutorial.categories(getCategoriesForQuery(Tutorial.SELECT_CATEGORIES, category_statement_parameters));
                 }
             } else {
                 return null;
@@ -149,5 +160,25 @@ public class DataModel {
             log("ERROR", "Tutorial getTutorialsForQuery", se);
         }
         return tutorials;
+    }
+
+    // Return Category objects for the given query
+    public ArrayList<Category> getCategoriesForQuery(String query, ArrayList<String> statement_parameters) {
+        ArrayList<Category> categories = new ArrayList<Category>();
+        // Open a connection and execute the query
+        executeQuery(query, statement_parameters);
+        try {
+            // If the query was not empty
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    categories.add(new Category(rs));
+                }
+            } else {
+                return null;
+            }
+        } catch (SQLException se) {
+            log("ERROR", "Category getCategoriesForQuery", se);
+        }
+        return categories;
     }
 }
