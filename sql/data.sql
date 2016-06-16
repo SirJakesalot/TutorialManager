@@ -1,12 +1,2 @@
-INSERT INTO tutorials (id,title,content) VALUES(1,"Tomcat Setup","<p>Start off by installing Tomcat</p><pre class='prettyprint lang-bash'>#!/bin/bash</br>$ sudo apt-get install tomcat7</pre>");
-INSERT INTO tutorials (id,title,content) VALUES(2,"Bash Commands","<p>To familiarize yourself with bash, you should run the command man</p>");
-INSERT INTO tutorials (id,title,content) VALUES(3,"Django Setup","<p>Please visit the site <a href=http://django.com>Django</a> for more details</p>");
-INSERT INTO comments (tutorial_id,name,content) VALUES(1,"Freddy Jones","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(1,"Freddy Jones2","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(1,"Freddy Jones3","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(2,"Freddy Jones","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(2,"Freddy Jones2","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(2,"Freddy Jones3","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(3,"Freddy Jones","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(3,"Freddy Jones2","Really like this tutorial!");
-INSERT INTO comments (tutorial_id,name,content) VALUES(3,"Freddy Jones3","Really like this tutorial!");
+INSERT INTO categories (id, name) VALUES(1,"MISC")
+INSERT INTO tutorials (id,category_id,title,content) VALUES(1,1,"Welcome to the opensource Tutorial Manager!","<p>Start off by installing Tomcat</p><pre class='prettyprint lang-bash'>#!/bin/bash</br>$ sudo apt-get install tomcat7</pre>");
