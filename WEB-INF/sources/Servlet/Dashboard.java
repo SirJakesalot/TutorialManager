@@ -1,5 +1,6 @@
 import tutorialdb_model.DataModel;
 import tutorialdb_model.Tutorial;
+import tutorialdb_model.Category;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +20,11 @@ public class Dashboard extends HttpServlet {
 
         DataModel dm = new DataModel();
         ArrayList<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT, null);
+        ArrayList<Category> categories = dm.getCategoriesForQuery(Category.SELECT, null);
         dm.closeConnection();
 
         request.setAttribute("tutorials", tutorials);
+        request.setAttribute("categories", categories);
         request.getRequestDispatcher("jsp/dashboard.jsp").forward(request,response);
     }
 

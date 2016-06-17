@@ -16,10 +16,10 @@ public class Tutorial {
     public static final String SELECT       = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials;";
     public static final String SELECT_ID    = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE id=? LIMIT 1;";
     public static final String SELECT_TITLE = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE title=? LIMIT 1;";
-    public static final String INSERT       = "INSERT INTO tutorials(title,content) VALUES (?,?,COMPRESS(?));"; 
+    public static final String INSERT       = "INSERT INTO tutorials(title,content) VALUES (?,COMPRESS(?));"; 
     public static final String UPDATE_ID    = "UPDATE tutorials SET title=?,content=COMPRESS(?) WHERE id=?;"; 
     public static final String DELETE_ID    = "DELETE FROM tutorials WHERE id=?;";
-    public static final String SELECT_CATEGORIES = "SELECT * FROM tutorial_categories WHERE tutorial_id=?;";
+    public static final String SELECT_CATEGORIES = "SELECT * FROM categories WHERE id IN (SELECT category_id FROM tutorial_categories WHERE tutorial_id=?);";
     
     public Tutorial(ResultSet rs) {
         try {
@@ -45,23 +45,22 @@ public class Tutorial {
 
     // Converts Tutorial object to JSON while escaping special characters in the content
     public String toJSON() {
-        String categories_json = "{";
+        String categories_json = "[";
         // Add category objects
-        for (Category category: categories) {
-            categories_json += category.toJSON() + ",";
-        }
-        // Remove trailing comma
-        // else report an inappropriate event
-        if (categories_json.length() > 1) {
+        if (categories != null && !categories.isEmpty()) {
+            for (Category category: categories) {
+                categories_json += category.toJSON() + ",";
+            }
+            // Remove trailing comma
             categories_json = categories_json.substring(0,categories_json.length() - 1);
         } else {
             DataModel.log("ERROR", "No categories for tutorial with id=" + id());
         }
-        categories_json += "}";
+        categories_json += "]";
 
         return "{\"id\":\"" + id + "\"," + 
                 "\"title\":\"" + title + "\"," +
-                "\"categories\":\"" + categories_json + "\"," +
+                "\"categories\":" + categories_json + "," +
                 "\"content\":\"" + StringEscapeUtils.escapeJava(content) + "\"}";
     }
 }

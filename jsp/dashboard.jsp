@@ -16,6 +16,27 @@
       <td><p id="id"></p></td>
     </tr>
     <tr>
+      <th>Category</th>
+      <td>
+        <table class="dashboard_tutorial_category">
+          <td>
+            <select id="category_id" class="dashboard_select">
+              <optgroup label="Associated Categories">
+              </optgroup>
+              <optgroup label="Available Categories">
+                <c:forEach var="category" items="${categories}">
+                  <option value="${category.id()}">${category.name()}</option>
+                </c:forEach>
+              </optgroup>
+            </select>
+          </td>
+          <td>
+            <input type="button" value="Add Category"/>
+          </td>
+        </table>
+      </td>
+    </tr>
+    <tr>
       <th>Title</th>
       <td><input id="title" type="text"/></td>
     </tr>

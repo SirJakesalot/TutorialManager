@@ -183,3 +183,11 @@ table.dashboard_tutorial th {
     width:80px;
     font-size: 1.3em;
 }
+table.dashboard_tutorial_category {
+    width: 100%;
+    border-collapse: collapse;
+    border: none;
+}
+table.dashboard_tutorial_category td{
+    border: none;
+}

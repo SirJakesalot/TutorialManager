@@ -14,6 +14,10 @@ import java.util.ArrayList;
 @WebServlet("/dashboard_select")
 public class DashboardSelect extends HttpServlet {
 
+    // ONLY USED FOR DEBUGGING!!!
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        doPost(request,response);
+    }
     // Fetches tutorial from the database and prints a JSON message
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         // Used for writing JSON

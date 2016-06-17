@@ -20,10 +20,9 @@ public class DashboardUpdate extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         try {
-            String tutorial_id          = request.getParameter("tutorial_id");
-            String tutorial_category_id = request.getParameter("tutorial_category_id");
-            String tutorial_title       = request.getParameter("tutorial_title");
-            String tutorial_content     = request.getParameter("tutorial_content");
+            String tutorial_id      = request.getParameter("tutorial_id");
+            String tutorial_title   = request.getParameter("tutorial_title");
+            String tutorial_content = request.getParameter("tutorial_content");
 
             // Invalid tutorial id
             ArrayList<String> statement_parameters = new ArrayList<String>();
@@ -38,12 +37,10 @@ public class DashboardUpdate extends HttpServlet {
             // else update an existing tutorial
             if (tutorial_id.equals("-1")) {
                 update = Tutorial.INSERT;
-                statement_parameters.add(tutorial_category_id);
                 statement_parameters.add(tutorial_title);
                 statement_parameters.add(tutorial_content);
             } else {
                 update = Tutorial.UPDATE_ID;
-                statement_parameters.add(tutorial_category_id);
                 statement_parameters.add(tutorial_title);
                 statement_parameters.add(tutorial_content);
                 statement_parameters.add(tutorial_id);
@@ -61,12 +58,11 @@ public class DashboardUpdate extends HttpServlet {
             ArrayList<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_TITLE, statement_parameters);
             dm.closeConnection();
 
-            if (tutorials == null) {
+            if (tutorials == null || tutorials.isEmpty()) {
                 dm.log("ERROR", "DashboardUpdate doPost - Unable to find the last updated record for tutorial_id = " + tutorial_id);
                 out.println("[{\"message\":\"Unable to find tutorial_id = " + tutorial_id + "\"}]"); 
                 return;
             }
-            String json = tutorials.get(0).toJSON();
 
             switch (rows_affected) {
                 case 0:
@@ -75,11 +71,11 @@ public class DashboardUpdate extends HttpServlet {
                     break;
                 case 1:
                     DataModel.log("SUCCESS", "Successfully updated");
-                    out.println("[{\"message\":\"Successfully Updated tutorial_id = " + tutorial_id + "\"}," + json + "]"); 
+                    out.println("[{\"message\":\"Successfully Updated tutorial_id = " + tutorials.get(0).id() + "\"}," + tutorials.get(0).toJSON() + "]");
                     break;
                 default:
                     DataModel.log("ERROR", "Multiple rows were updated");
-                    out.println("[{\"message\":\"Multiple rows were updated for tutorial_id = " + tutorial_id + "\"}]"); 
+                    out.println("[{\"message\":\"Multiple rows were updated for tutorial_id = " + tutorials.get(0).id() + "\"}]"); 
             }
         } catch (Exception e) {
             DataModel.log("ERROR", "DashboardUpdate doPost", e);
