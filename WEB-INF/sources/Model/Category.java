@@ -10,7 +10,7 @@ public class Category {
     private String name;
 
     // Query statements that are performed on the database
-    public static final String SELECT    = "SELECT * FROM categories;";
+    public static final String SELECT    = "SELECT * FROM categories ORDER BY name ASC;";
     public static final String SELECT_ID = "SELECT * FROM categories WHERE id=? LIMIT 1;";
     public static final String INSERT    = "INSERT INTO categories(name) VALUES (?);"; 
     public static final String UPDATE_ID = "UPDATE categorys SET name=? WHERE id=?;"; 

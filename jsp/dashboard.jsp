@@ -2,12 +2,12 @@
   <h1 style="text-align: center;">Admin Dashboard</h1>
   <p id="msg" class="success"></p>
   <center>
-  <select id="select_id" class="dashboard_select" onchange="getTutorialById(this.value);">
-    <option value="-1"></option>
-    <c:forEach var="tutorial" items="${tutorials}">
-      <option value="${tutorial.id()}">${tutorial.title()}</option>
-    </c:forEach>
-  </select>
+    <select id="select_id" class="dashboard_select" onchange="getTutorialById(this.value);">
+      <option value="-1"></option>
+      <c:forEach var="tutorial" items="${tutorials}">
+        <option value="${tutorial.id()}">${tutorial.title()}</option>
+      </c:forEach>
+    </select>
   </center>
   </br>
   <table class="dashboard_tutorial">
@@ -24,9 +24,6 @@
               <optgroup id="associated_category_group" label="Associated Categories" value="1">
               </optgroup>
               <optgroup id="available_category_group" label="Available Categories" value="2">
-                <option value="0">Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="6">Option 6</option>
                 <c:forEach var="category" items="${categories}">
                   <option value="${category.id()}">${category.name()}</option>
                 </c:forEach>
@@ -48,16 +45,22 @@
       <td><textarea rows="25" id="content"></textarea></td>
     </tr>
     <tr>
-      <td><input type="button" value="Delete Tutorial" class="submit" onclick="deleteTutorial();"/></td>
+      <td><p style="text-align: center;margin: 0px auto;"><input type="button" style="display: inline-block;" value="Delete Tutorial" onclick="deleteTutorial();"/></p></td>
       <td><input type="button" value="Update Tutorial" class="submit" onclick="updateTutorialInfo();"/></td>
     </tr>
   </table>
   <script>
-    $(document).ready(updateCategoryButton);
+    // Will update category button text to "Add Category" if there aren't any tutorials associated with the tutorial
     var context = "${context}";
     var dashboard_select_url = context + "/dashboard_select";
     var dashboard_update_url = context + "/dashboard_update";
     var dashboard_delete_url = context + "/dashboard_delete";
+
+    // Remember category changes
+    var associated_category_group = "associated_category_group";
+    var available_category_group = "available_category_group";
+    var added_categories   = [];
+    var removed_categories = [];
 
     /*
         AJAX Calls
@@ -116,9 +119,22 @@
     */
 
     function updateSelectedTutorial(arry) {
+        
         $("#id").html(arry[0].id);
         $("#title").val(arry[0].title);
         $("#content").val(arry[0].content);
+        $(arry[0].categories).each(function() {
+            var id = $(this)[0].id
+            $("#available_category_group").children().each(function() {
+                console.log("ID: " + id + " Val: " + $(this).val());
+                if ($(this).val() == id) {
+                    insertCategory(associated_category_group, $(this));
+                }
+            }); 
+            //insertCategory(associated_category_group, $("<option value='" + $(this)[0].id + "'>" + $(this)[0].name + "</option>"));
+            //console.log(JSON.stringify($(this)[0].id));
+            //console.log(JSON.stringify($(this)[0].name));
+        });
     }
 
     function addTutorialSelect(arry) {
@@ -130,6 +146,10 @@
         $("#msg").html(arry[0].message);
         $("#select_id option[value='" + arry[1].id + "']").remove();
     }
+
+    /*
+        Category actions
+    */
     function updateCategoryButton() {
         var optgroup_val = $('#category_select :selected').parent().attr('value');
         if (optgroup_val == 1) {
@@ -140,38 +160,49 @@
             console.log("ERROR: Wrong category button value");
         }
     }
-    function addTutorialAssociatedCategory() {
-        var selected_option = $('#category_select :selected');
-        $('#associated_category_group').append(selected_option);
-        $('#category_select').val(selected_option.val());
-        updateCategoryButton();
-    }
-    function removeTutorialAssociatedCategory() {
-        var selected_option = $('#category_select :selected');
-        $('#available_category_group').append(selected_option);
-        $('#category_select').val(selected_option.val());
-        updateCategoryButton();
-    }
     function updateTutorialAssociatedCategory() {
         var category_button_value = $('#category_update_button').val();
+        var selected_option = $('#category_select :selected');
+
         if (category_button_value == "Add Category") {
-            addTutorialAssociatedCategory();
+            insertCategory("associated_category_group", selected_option);
         } else if (category_button_value == "Remove Category") {
-            removeTutorialAssociatedCategory();
+            insertCategory("available_category_group", selected_option);
         } else {
             console.log("ERROR: Wrong category button value");
+            return;
+        }
+        updateCategoryButton();
+    }
+
+    // Given the destination category_group and adds the current selected option to the destination group
+    function insertCategory(category_group, option) {
+        var did_insert = false;
+        var category_opts = $('#' + category_group).children();
+        // TODO: Implement binary search to insert
+        $(category_opts).each(function() {
+            if ($(this).text().localeCompare(option.text()) > 0) {
+                $(option).insertBefore($(this));
+                did_insert = true;
+                return false;
+            }
+        });
+        if (!did_insert) {
+            $('#' + category_group).append(option);
         }
     }
 
     /*
         Helper Functions
     */
-    
     function resetTutorial() {
         $("#id").html("");
         $("#title").val("");
         $("#content").val("");
         $("#select_id").val("-1");
+        $("#associated_category_group").children().each(function() {
+            insertCategory("available_category_group", $(this));
+        });
     }
   </script>
 <%@ include file="footer.jsp" %>

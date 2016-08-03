@@ -13,7 +13,7 @@ public class Tutorial {
     private ArrayList<Category> categories;
 
     // Query statements that are performed on the database
-    public static final String SELECT       = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials;";
+    public static final String SELECT       = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials ORDER BY title ASC;";
     public static final String SELECT_ID    = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE id=? LIMIT 1;";
     public static final String SELECT_TITLE = "SELECT id,title,UNCOMPRESS(content) as content FROM tutorials WHERE title=? LIMIT 1;";
     public static final String INSERT       = "INSERT INTO tutorials(title,content) VALUES (?,COMPRESS(?));"; 

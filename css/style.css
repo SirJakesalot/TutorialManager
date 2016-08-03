@@ -3,9 +3,9 @@
     margin: 0;
     padding: 0;
 }
-xmp {
+/*xmp {
     text-align: left;
-}
+}*/
 body {
     font: 15px Helvetica, Sans-Serif;
     background-color: #DFF69B;
@@ -38,24 +38,16 @@ p {
 input,textarea {
     width: 100%;
     padding: 5px;
-    border-radius: 10px;
     border-color: #A4A3A3;
-    display: block;
-    margin: auto;
+    display: inline-block;
 }
 img,input:hover,textarea:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
-input.submit {
-    font-size: 1.1em;
-    border-radius: 15px;
-    margin-top:5px;
-}
 img {
     width: 100%;
     border: 2px solid #98bf21;
-    border-radius: 4px; 
 }
 .photo_gallery {
 
@@ -132,22 +124,20 @@ div.upload {
     margin: auto;
 }
 div.content {
-    padding-left: 5px;
     margin: auto;
     width: 70%;
 }
 div.content pre {
-    padding: 0px;
-    margin: 6px;
     overflow-x: auto;
     max-height: 200px;
 }
+div.submit {
+    text-align: center;
+}
 
 select.dashboard_select {
-    text-align: center;
-    margin: auto;
+    display: block;
     padding: 5px;
-    border-radius: 15px;
     border-color: #A4A3A3;
 }
 
