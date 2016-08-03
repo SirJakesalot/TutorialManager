@@ -119,7 +119,7 @@
     */
 
     function updateSelectedTutorial(arry) {
-        
+        resetCategories();
         $("#id").html(arry[0].id);
         $("#title").val(arry[0].title);
         $("#content").val(arry[0].content);
@@ -130,7 +130,7 @@
                 if ($(this).val() == id) {
                     insertCategory(associated_category_group, $(this));
                 }
-            }); 
+            });
             //insertCategory(associated_category_group, $("<option value='" + $(this)[0].id + "'>" + $(this)[0].name + "</option>"));
             //console.log(JSON.stringify($(this)[0].id));
             //console.log(JSON.stringify($(this)[0].name));
@@ -195,11 +195,15 @@
     /*
         Helper Functions
     */
+
     function resetTutorial() {
         $("#id").html("");
         $("#title").val("");
         $("#content").val("");
         $("#select_id").val("-1");
+        resetCategories();
+    }
+    function resetCategories() {
         $("#associated_category_group").children().each(function() {
             insertCategory("available_category_group", $(this));
         });
