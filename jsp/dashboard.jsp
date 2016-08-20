@@ -87,16 +87,28 @@
         var idval = encodeURIComponent($("#select_id").val());
         var titleval = encodeURIComponent($("#title").val());
         var contentval = encodeURIComponent($("#content").val());
-        var params = "tutorial_id=" + idval + "&tutorial_title=" + titleval + "&tutorial_content=" + contentval;
+        var associated = [];
+        var available = [];
+        $("#associated_category_group").children().each(function() {
+            associated.push(Number($(this).val()));
+        });
+        //var params = JSON.stringify({id: idval, title: titleval, content: contentval, associated_categories: associated});
+        var params = "tutorial_id=" + idval +
+                     "&tutorial_title=" + titleval +
+                     "&tutorial_content=" + contentval +
+                     "&tutorial_associated_categories=" + JSON.stringify(associated);
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                console.log(xmlhttp.responseText);
                 var arry = JSON.parse(xmlhttp.responseText);
                 addTutorialSelect(arry);
             }
         };
-        xmlhttp.open("POST", dashboard_update_url, true);
+        //xmlhttp.open("POST", dashboard_update_url, true);
+        xmlhttp.open("POST", dashboard_update_url);
         xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        //xmlhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
         xmlhttp.send(params);
     }
     function deleteTutorial() {
@@ -105,6 +117,7 @@
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                console.log(xmlhttp.responseText);
                 var arry = JSON.parse(xmlhttp.responseText);
                 removeTutorialSelect(arry);
             }
@@ -126,7 +139,7 @@
         $(arry[0].categories).each(function() {
             var id = $(this)[0].id
             $("#available_category_group").children().each(function() {
-                console.log("ID: " + id + " Val: " + $(this).val());
+                //console.log("ID: " + id + " Val: " + $(this).val());
                 if ($(this).val() == id) {
                     insertCategory(associated_category_group, $(this));
                 }
@@ -144,7 +157,9 @@
     function removeTutorialSelect(arry) {
         resetTutorial();
         $("#msg").html(arry[0].message);
-        $("#select_id option[value='" + arry[1].id + "']").remove();
+        if (arry.length > 0) {
+            $("#select_id option[value='" + arry[1].id + "']").remove();
+        }
     }
 
     /*
