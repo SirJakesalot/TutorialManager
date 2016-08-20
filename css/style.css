@@ -13,9 +13,7 @@ body {
 html {
     overflow-y: auto;
 }
-h1 {
-    text-align: center;
-}
+
 h1,h2,h3,h4,h5,h6 {
     font-family: Cambria, Georgia, serif;
     padding-top: 15px;
@@ -82,15 +80,7 @@ figure input {
 
 
 /********** Class Tags **********/
-/* Messages */
-.error {
-    color: red;
-    text-align: center;
-}
-.success {
-    color: green;
-    text-align: center;
-}
+
 
 /* Navigation */
 ul.navigation {
@@ -100,7 +90,7 @@ ul.navigation {
     background-color: #A7C942;
 }
 li.left {
-    float: left;    
+    float: left;
     border-right: 1px solid #DFF69B;
 }
 li.right {
@@ -135,11 +125,7 @@ div.submit {
     text-align: center;
 }
 
-select.dashboard_select {
-    display: block;
-    padding: 5px;
-    border-color: #A4A3A3;
-}
+
 
 table.tutorial_table {
     width: auto;
@@ -154,30 +140,4 @@ table.tutorial_table td {
     border: 1px solid black;
     font-size: 1em;
     padding: 5px 20px 5px 5px;
-}
-table.dashboard_tutorial {
-    margin: auto;
-    width: 90%;
-    background: white;
-    border: 1px solid black;
-    border-collapse: collapse;
-    background-color: #A7C942;
-}
-table.dashboard_tutorial td {
-    border: 1px solid black;
-    font-size: 1em;
-    padding: 5px 20px 5px 5px;
-}
-table.dashboard_tutorial th {
-    border: 1px solid black;
-    width:80px;
-    font-size: 1.3em;
-}
-table.dashboard_tutorial_category {
-    width: 100%;
-    border-collapse: collapse;
-    border: none;
-}
-table.dashboard_tutorial_category td{
-    border: none;
 }

@@ -1,15 +1,25 @@
+<!-- TODO
+rm redundancy id=info and class=info
+-->
 <%@ include file="header.jsp" %>
-  <h1 style="text-align: center;">Admin Dashboard</h1>
-  <p id="msg" class="success"></p>
-  <center>
-    <select id="select_id" class="dashboard_select" onchange="getTutorialById(this.value);">
-      <option value="-1"></option>
-      <c:forEach var="tutorial" items="${tutorials}">
-        <option value="${tutorial.id()}">${tutorial.title()}</option>
-      </c:forEach>
-    </select>
-  </center>
-  </br>
+<link rel="stylesheet" href="${context}/css/general.css" type="text/css" media="screen, projection"/>
+<link rel="stylesheet" href="${context}/css/dashboard.css" type="text/css" media="screen, projection"/>
+<h1>Admin Dashboard</h1>
+
+<!-- display message -->
+<div id="info" class="info"></div>
+
+<!-- selection of all tutorials in the database -->
+<center>
+  <select id="select_tutorial" onchange="getTutorial(this.value);">
+    <option value="-1"></option>
+    <c:forEach var="tutorial" items="${tutorials}">
+      <option value="${tutorial.id()}">${tutorial.title()}</option>
+    </c:forEach>
+  </select>
+</center>
+</br>
+
   <table class="dashboard_tutorial">
     <tr>
       <th>Id</th>
@@ -20,7 +30,7 @@
       <td>
         <table class="dashboard_tutorial_category">
           <td>
-            <select id="category_select" class="dashboard_select" onchange="updateCategoryButton();">
+            <select id="select_category" onchange="updateCategoryButton();">
               <optgroup id="associated_category_group" label="Associated Categories" value="1">
               </optgroup>
               <optgroup id="available_category_group" label="Available Categories" value="2">
@@ -66,7 +76,7 @@
         AJAX Calls
     */
 
-    function getTutorialById(tutorial_id) {
+    function getTutorial(tutorial_id) {
         if (tutorial_id == -1) {
             resetTutorial();
         } else {
@@ -84,7 +94,7 @@
         }
     }
     function updateTutorialInfo() {
-        var idval = encodeURIComponent($("#select_id").val());
+        var idval = encodeURIComponent($("#select_tutorial").val());
         var titleval = encodeURIComponent($("#title").val());
         var contentval = encodeURIComponent($("#content").val());
         var associated = [];
@@ -112,7 +122,7 @@
         xmlhttp.send(params);
     }
     function deleteTutorial() {
-        var idval = encodeURIComponent($("#select_id").val());
+        var idval = encodeURIComponent($("#select_tutorial").val());
         var params = "tutorial_id=" + idval;
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -152,13 +162,13 @@
 
     function addTutorialSelect(arry) {
         removeTutorialSelect(arry);
-        $("#select_id").append($('<option value=' + arry[1].id + '>' + arry[1].title + '</option>'));
+        $("#select_tutorial").append($('<option value=' + arry[1].id + '>' + arry[1].title + '</option>'));
     }
     function removeTutorialSelect(arry) {
         resetTutorial();
         $("#msg").html(arry[0].message);
         if (arry.length > 0) {
-            $("#select_id option[value='" + arry[1].id + "']").remove();
+            $("#select_tutorial option[value='" + arry[1].id + "']").remove();
         }
     }
 
@@ -215,7 +225,7 @@
         $("#id").html("");
         $("#title").val("");
         $("#content").val("");
-        $("#select_id").val("-1");
+        $("#select_tutorial").val("-1");
         resetCategories();
     }
     function resetCategories() {
