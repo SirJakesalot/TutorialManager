@@ -1,0 +1,78 @@
+.figure {
+    padding: 0 6px;
+    float: left;
+	width: 24vw;
+	max-height: 24vw;
+	margin: 10px 0px;
+	box-sizing: border-box;
+}
+
+@media only screen and (max-width: 700px){
+    .figure {
+        width: 48vw;
+		max-height: 48vw;
+    }
+}
+@media only screen and (max-width: 500px){
+    .figure {
+        width: 100vw;
+		max-height: 100vw;
+    }
+}
+
+.figure .image { border: 1px solid #ccc; }
+.figure .image:hover { border: 1px solid #777; }
+
+.figure .image img {
+    width: 100%;
+	height: auto;
+}
+
+.figure input {
+	font-size: 20px;
+}
+.figure input:hover {
+	border: 2px solid #777;
+}
+
+.figure .fileName, .figure .upload {
+	width: 100%;
+    padding: 5px;
+    text-align: center;
+}
+.figure .actions {
+	display: flex;
+}
+
+.figure .update, .figure .delete {
+	width: 50%;
+}
+
+#uploadFile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+#uploadFile + label:hover {
+	background-color: red;
+}
+
+#uploadFile + label {
+	width: 100%;
+	padding: 10px 0;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 1.25em;
+	font-weight: 700;
+	color: white;
+	background-color: black;
+	display: inline-block;
+}
+
+#upload {
+	width: 100%;
+}

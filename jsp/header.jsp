@@ -1,6 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
@@ -12,29 +10,18 @@
 
 <html>
 <head>
-  <script type='text/javascript' language="javascript" src="${context}/javascript/jquery.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script type='text/javascript' language="javascript" src="${context}/javascript/general.js"></script>
+  <script type='text/javascript' language="javascript" src="${context}/javascript/images.js"></script>
+  <script type='text/javascript' language="javascript" src="${context}/javascript/dashboard.js"></script>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
-  <link rel="stylesheet" href="${context}/css/style.css" type="text/css" media="screen, projection"/>
-  <title>Tutorial Manager</title>
+  <link rel="stylesheet" href="${context}/css/images.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="${context}/css/dashboard.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="${context}/css/sidebar.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="${context}/css/navBar.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="${context}/css/general.css" type="text/css" media="screen, projection"/>
+  <title>${title}</title>
 </head>
-
 <body>
-  <%@ include file="nav_bar.jsp" %>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '1417659781582505',
-        xfbml      : true,
-        version    : 'v2.6'
-      });
-    };
-
-    (function(d, s, id){
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) {return;}
-       js = d.createElement(s); js.id = id;
-       js.src = "//connect.facebook.net/en_US/sdk.js";
-       fjs.parentNode.insertBefore(js, fjs);
-     }(document, 'script', 'facebook-jssdk'));
-  </script>
-
+<%@ include file="navBar.jsp" %>
+<div id="msgs"></div>
