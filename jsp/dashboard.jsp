@@ -3,7 +3,7 @@ rm redundancy id=info and class=info
 -->
 <%@ include file="header.jsp" %>
 
-<h1>Admin Dashboard</h1>
+<center><h1>Admin Dashboard</h1></center>
 <!-- display message -->
 <!--
 <div onclick="addInfoMsg();">Add Info Message</div>
@@ -16,7 +16,8 @@ rm redundancy id=info and class=info
 <!-- selection of all tutorials in the database -->
 <center>
   <select id="selectTutorial" onchange="getTutorial(this.value, '${context}/tutorial_select');">
-    <option value="-1"></option>
+    <option value="-2"></option>
+    <option value="-1">&ltNEW TUTORIAL&gt</option>
       <c:forEach var="tutorial" items="${tutorials}">
         <option value="${tutorial.id()}">${tutorial.title()}</option>
       </c:forEach>

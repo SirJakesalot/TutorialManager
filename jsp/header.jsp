@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="${context}/css/navBar.css" type="text/css" media="screen, projection"/>
   <link rel="stylesheet" href="${context}/css/general.css" type="text/css" media="screen, projection"/>
   <title>${title}</title>
+  <link rel="shortcut icon" type="image/x-icon" href="${context}/css/img/JakesTutorials.bmp" />
 </head>
 <body>
 <%@ include file="navBar.jsp" %>

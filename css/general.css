@@ -16,9 +16,7 @@ hr {
 h1,h2,h3,h4,h5,h6 {
   font-family: Cambria, Georgia, serif;
 }
-h1 {
-  text-align: center;
-}
+
 body {
   overflow: auto;
   min-height: 100%;
@@ -32,19 +30,20 @@ body {
   background: radial-gradient(ellipse at center,  rgba(255,255,255,1) 1%, gainsboro 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#808080',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
-div.content {
-  background-color: transparent;
+.page {
+  width: 840px;
+  margin: 20px auto;
+  background-color: white;
   border-radius: 5px;
-  padding: 0px 8px;
-  display: block;
-  overflow: auto;
-  margin-left: 20px;
+  box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+div.content {
+  padding: 10px;
 }
 div.content pre {
   border-radius: 5px;
   background-color: #f2f2f2;
   overflow-x: auto;
-  display: inline-block;
   white-space: pre-wrap;
   padding-right: 20px;
 }
@@ -66,24 +65,24 @@ div.content p {
 
 /* Messages */
 .info, .success, .warning, .error {
-  width: 50%;
   border: 1px solid;
-  margin: 10px 0px;
-/*   margin: 10px; */
-  padding:15px 10px 15px 50px;
+  margin: 10px 0;
+  /* account for padding left */
+  width: calc(100% - 50px);
+  padding:15px 0 15px 50px;
   background-repeat: no-repeat;
   background-position: 5px center;
   opacity: 1;
   transition: opacity 0.6s; /* 600ms to fade out */
   left: 0;
   right: 0;
-
 }
 .info {
   color: #00529B;
   background-color: #BDE5F8;
   background-image: url('img/info.png');
 }
+
 .success {
   color: #4F8A10;
   background-color: #DFF2BF;

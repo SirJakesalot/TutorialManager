@@ -67,6 +67,7 @@ public class TutorialUpdate extends HttpServlet {
             String title      = request.getParameter("title");
             String content    = request.getParameter("content");
             String categories = request.getParameter("categories");
+            /* convert categories to a set of ints */
             Set<String> associated_categories = parse_categories(categories);
 
             /* invalid tutorial id */
@@ -83,7 +84,7 @@ public class TutorialUpdate extends HttpServlet {
 			/* used for communicating with tutorialdb */
             DataModel dm = new DataModel();
 			
-			/*  */
+			/* parameters for the tutorial update statement */
             List<String> statement_parameters = new ArrayList<String>();
             String update = "";
             // Having an id of -1 signals that we are inserting a NEW Tutorial into the database

@@ -1,8 +1,6 @@
 <%@ include file="header.jsp" %>
-<div class="content">
-  <h1>Images</h1>
-  <p>${message}</p>
-
+<h1>Images</h1>
+<div class="images_content">
   <c:forEach var="fileName" items="${fileNames}">
     <c:set var="filePath" value="${context}/${uploadDir}/${fileName}"/>
     <div class="figure">
@@ -18,20 +16,16 @@
 	  </div>
     </div>
   </c:forEach>
-  <div class="figure">
-    <div class="upload">
-      <input id="uploadFile" type="file" multiple />
-      <label for="uploadFile"></label>
-	  <input id="upload" type="submit" value="Upload"/>
-    </div>
+  <div class="upload">
+    <h:form method="POST" action="file_upload" enctype="multipart/form-data">
+      <input id="files" type="file" multiple />
+	  <div id="uploadLabel">
+        <label class="uploadBtn" for="files">+</label>
+	  </div>
+	</h:form>
+	
+	<input class="submit" type="submit" value="Upload" onclick="fileUpload('${context}/file_upload');"/>
   </div>
-  <!--<div class="figure">
-    <div class="image">
-      <input id="uploadFile" type="file" multiple />
-      <label for="uploadFile"><img src="${context}/img/FileUpload.png" /></label>
-      <input id="upload" type="submit" value="Upload"/>
-    </div>
-  </div> -->
 </div>
 <script>
   $("input:text").bind("keyup change", function () {
@@ -39,6 +33,7 @@
     $(this).css({'border' : '2px solid red'});
 	$(this).siblings(".actions").children(".update").prop("disabled", false);
   });
+  
 </script>
 
 <%@ include file="footer.jsp" %>

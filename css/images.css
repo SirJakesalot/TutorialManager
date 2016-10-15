@@ -1,78 +1,95 @@
+.images_content {
+  display: flex;
+  flex-flow: row wrap;
+}
+
 .figure {
-    padding: 0 6px;
-    float: left;
-	width: 24vw;
-	max-height: 24vw;
-	margin: 10px 0px;
-	box-sizing: border-box;
+  float: left;
+  max-width: 200px;
+  max-height: 264px;
+  margin: 5px;
 }
 
-@media only screen and (max-width: 700px){
-    .figure {
-        width: 48vw;
-		max-height: 48vw;
-    }
+.figure .image img:hover {
+  border: 2px solid #777;
+  max-width: 196px;
+  max-height: 196px;
 }
-@media only screen and (max-width: 500px){
-    .figure {
-        width: 100vw;
-		max-height: 100vw;
-    }
-}
-
-.figure .image { border: 1px solid #ccc; }
-.figure .image:hover { border: 1px solid #777; }
 
 .figure .image img {
-    width: 100%;
-	height: auto;
+  display: block;
+  max-width: 200px;
+  max-height: 200px;
+  margin: auto;
 }
 
 .figure input {
-	font-size: 20px;
+  font-size: 20px;
 }
-.figure input:hover {
-	border: 2px solid #777;
+.figure input:hover, .upload .submit:hover {
+  border: 2px solid #777;
 }
 
-.figure .fileName, .figure .upload {
-	width: 100%;
-    padding: 5px;
-    text-align: center;
+.figure .fileName {
+  width: 100%;
+  padding: 5px;
+  text-align: center;
 }
 .figure .actions {
-	display: flex;
+  display: flex;
 }
 
 .figure .update, .figure .delete {
-	width: 50%;
+  width: 50%;
 }
 
-#uploadFile {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+
+
+.upload {
+  margin: 5px;
+  width: 200px;
+  height: 200px;
 }
 
-#uploadFile + label:hover {
-	background-color: red;
+#files {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
-#uploadFile + label {
-	width: 100%;
-	padding: 10px 0;
-	text-align: center;
-	border-radius: 5px;
-	font-size: 1.25em;
-	font-weight: 700;
-	color: white;
-	background-color: black;
-	display: inline-block;
+.uploadBtn {
+  width: 100px;
+  height: 100px;
+  font-size: 100px;
+  margin: 50px 0px 0px 50px;
+  border-radius: 50px;
+  overflow: hidden;
+  border: none;
+  display: block;
+  line-height: .5em;
+  background-color: gray;
+  line-height: 100px;
+}
+.uploadBtn:hover {
+  color: red;
 }
 
-#upload {
-	width: 100%;
+#uploadLabel {
+  width: 200px;
+  height: 200px;
+  text-align: center;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: black;
+  display: inline-block;
+  
+}
+
+.upload .submit {
+  width: 100%;
+  font-size: 20px;
 }

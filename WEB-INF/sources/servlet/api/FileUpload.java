@@ -1,7 +1,10 @@
 package tutorialdb_api;
 
+import tutorialdb_model.Logger;
+
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,25 +26,33 @@ public class FileUpload extends HttpServlet {
 
     // Handles file upload
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/* used for writing the JSON to the page */
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+		
         // Gets absolute path of the web application
         String appPath = request.getServletContext().getRealPath("");
         // Constructs path of the directory to save uploaded file
         String savePath = appPath + File.separator + SAVE_DIR;
 
-        // Creates the save directory if it does not exist
-        File fileSaveDir = new File(savePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
-        }
+		try {
+			// Creates the save directory if it does not exist
+			File fileSaveDir = new File(savePath);
+			if (!fileSaveDir.exists()) {
+				fileSaveDir.mkdir();
+			}
 
-        // Write files to savePath
-        for (Part part: request.getParts()) {
-            String fileName = extractFileName(part);
-            part.write(savePath + File.separator + fileName);
+			// Write files to savePath
+			for (Part part: request.getParts()) {
+				String fileName = extractFileName(part);
+				part.write(savePath + File.separator + fileName);
+			}
+			
+			out.println(Logger.log(Logger.Status.SUCCESS, "FileUpload uploaded " + request.getParts().size() + " files"));
+			out.flush();
+		} catch (Exception e) {
+            out.println(Logger.log(Logger.Status.ERROR, "FileUpload doPost", e));
         }
-        
-        request.setAttribute("message", "File(s) uploaded successfully!");
-        getServletContext().getRequestDispatcher("/jsp/upload.jsp").forward(request, response);
     }
     
     // Extracts file name from HTTP header content-disposition

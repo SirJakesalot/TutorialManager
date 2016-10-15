@@ -1,7 +1,10 @@
 function getTutorial(id, url) {
-  if (id == "-1") {
+  if (id == "-2") {
 	resetTutorial();
 	$(".tableTutorial :input").prop("disabled", true);
+  } else if (id == "-1") {
+    resetContent();
+    $(".tableTutorial :input").prop("disabled", false);
   } else {
 	resetCategories();
 	var params = {id:id};
@@ -31,10 +34,13 @@ function handleSelectTutorialResponse(response) {
 }
 
 function resetTutorial() {
+  $("#selectTutorial").val("-2");
+  resetContent();
+}
+function resetContent() {
   $("#id").html("");
   $("#title").val("");
   $("#content").val("");
-  $("#selectTutorial").val("-1");
   resetCategories();
 }
 
@@ -65,7 +71,6 @@ function handleUpdateTutorialResponse(response) {
   if (response.status != undefined) {
     addMsg(response);
   } else {
-	console.log(JSON.stringify(response));
 	addMsg({status: "ERROR", message: "Non-status response"});
   }
 }

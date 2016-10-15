@@ -33,3 +33,26 @@ function deleteImage(btn, url) {
   });
   request.done(handleUpdateImageResponse);
 }
+
+function fileUpload(url) {
+  var formData = new FormData();
+  var f = $("#files").prop("files");
+  for (var i = 0, len = f.length; i < len; i++) {
+    formData.append("file" + i, f[i]);
+  }
+  
+  var request = $.ajax({
+    url: url,
+	type: 'post',
+	data: formData,
+	datatype: "json",
+	contentType: false,
+	cache: false,
+	processData: false
+  });
+  request.done(handleUpdateImageResponse);
+}
+
+function handleFileUploadResponse(response) {
+  console.log("response");
+}
