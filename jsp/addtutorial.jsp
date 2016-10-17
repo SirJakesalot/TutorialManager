@@ -22,7 +22,7 @@
     <td><textarea id="content" rows="25"></textarea></td>
   </tr>
   <tr>
-    <td colspan="2"><input id="addTutorial" class="dashboardAction" type="button" value="Update Tutorial" onclick="addTutorial('${context}/addTutorial');" /></td>
+    <td colspan="2"><input id="addTutorial" class="dashboardAction" type="button" value="Add Tutorial" onclick="addTutorial('${context}/api/addtutorial');" /></td>
   </tr>
 </table>
 <%@ include file="footer.jsp" %>

@@ -2,8 +2,8 @@ package tutorial_site;
 
 import tutorialdb_model.DataModel;
 import tutorialdb_model.Logger;
-import tutorialdb_model.Tutorial;
 import tutorialdb_model.Category;
+import tutorialdb_model.TutorialException;
 
 import tutorialdb_lib.GetNavBar;
 
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * TutorialPage servlet gathers the information required for the tutorial page.
+ * tutorialdb_model.TutorialPage servlet gathers the information required for the tutorial page.
  * @author Jake Armentrout
  */
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 @WebServlet("/tutorial")
 
 
-public class TutorialPage extends HttpServlet {
+public class Tutorial extends HttpServlet {
 
 	/**
 	 * A GET request will query tutorialdb for the tutorial, populate the
@@ -35,52 +35,47 @@ public class TutorialPage extends HttpServlet {
 	 * @param response HttpServletResponse for the request
 	 */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String id = request.getParameter("id");
-		
-        /* invalid tutorial id */
-        if (id == null || id.trim().isEmpty()) {
-            Logger.log(Logger.Status.WARNING, "TutorialPage doGet: Tutorial id is null or empty \"" + id + "\"");
-            response.sendRedirect("");
-            return;
-        }
-		
-		/* communicates with tutorialdb */
-		DataModel dm = new DataModel();
-		
+        
+        /* communicates with tutorialdb */
+        DataModel dm = null;
         try {
+            String id = request.getParameter("id");
+            
+            /* invalid tutorial id */
+            if (id == null || id.trim().isEmpty()) {
+                throw new TutorialException("tutorial id is null or empty");
+            }
+            
+            dm = new DataModel();
             /* query tutorialdb for tutorial */
             List<String> statement_parameters = new ArrayList<String>();
             statement_parameters.add(id);
-            List<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_ID, statement_parameters);
+            List<tutorialdb_model.Tutorial> tutorials = dm.getTutorialsForQuery(tutorialdb_model.Tutorial.SELECT_ID, statement_parameters);
             dm.closeStatement();
 			
 			/* report error if query was empty */
             if (tutorials == null || tutorials.isEmpty()) {
-                Logger.log(Logger.Status.ERROR, "TutorialPage Invalid tutorial id: " + id);
-				dm.closeConnection();
-                response.sendRedirect("");
-                return;
+                throw new TutorialException("invalid tutorial id: " + id);
             }
 			
 			/* only one tutorial should be returned */
-            Tutorial tutorial = tutorials.get(0);
+            tutorialdb_model.Tutorial tutorial = tutorials.get(0);
 
-            /* set the page's fbdata_url, title, tutorial, and categories */
+            /* set page paramaters */
             String fbdata_url = request.getRequestURL() + "?" + request.getQueryString();
             request.setAttribute("fbdata_url", fbdata_url);
             request.setAttribute("title", tutorial.title());
             request.setAttribute("tutorial", tutorial);
             request.setAttribute("categories", GetNavBar.getCategories(dm));
-			/* close tutorialdb connection */
-            dm.closeConnection();
 
-			/* forward this response to tutorial.jsp */
             request.getRequestDispatcher("jsp/tutorial.jsp").forward(request,response);
         } catch (Exception e) {
-            Logger.log(Logger.Status.ERROR, "TutorialPage", e);
+            Logger.log(Logger.Status.ERROR, "tutorialdb_model.Tutorial", e);
+            request.setAttribute("msg", e.getMessage());
+            request.getRequestDispatcher("jsp/error.jsp").forward(request,response);
+        } finally {
+            if (dm != null) { dm.closeConnection(); }
         }
-		/* close tutorialdb connection */
-		dm.closeConnection();
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

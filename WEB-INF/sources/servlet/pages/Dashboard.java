@@ -3,6 +3,7 @@ package tutorial_site;
 import tutorialdb_model.DataModel;
 import tutorialdb_model.Tutorial;
 import tutorialdb_model.Category;
+import tutorialdb_model.Logger;
 import tutorialdb_lib.GetNavBar;
 
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ import java.util.List;
 @WebServlet("/dashboard")
 
 
-public class DashboardPage extends HttpServlet {
+public class Dashboard extends HttpServlet {
 
     /**
 	 * A GET request will get a list of tutorials and categories, then forward
@@ -34,23 +35,32 @@ public class DashboardPage extends HttpServlet {
 	 */
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-		/* communicates with tutorialdb */
-        DataModel dm = new DataModel();
-		
-		/* gather list of tutorials and categories */
-        List<Tutorial> tutorials  = dm.getTutorialsForQuery(Tutorial.SELECT_ALL, null);
-        /* gather all navbar category objects */
-		List<Category> categories = GetNavBar.getCategories(dm);
-		/* close tutorialdb connection */
-        dm.closeConnection();
+        DataModel dm = null;
+        try {
+            /* communicates with tutorialdb */
+            dm = new DataModel();
+            
+            /* gather list of tutorials and categories */
+            List<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_ALL, null);
+            /* gather all navbar category objects */
+            List<Category> categories = GetNavBar.getCategories(dm);
+            /* close tutorialdb connection */
+            dm.closeConnection();
 
-		/* set the page's title, tutorials, and categories */
-		request.setAttribute("title", "Admin Dashboard");
-        request.setAttribute("tutorials", tutorials);
-        request.setAttribute("categories", categories);
-		
-		/* forward this response to dashboard.jsp */
-        request.getRequestDispatcher("jsp/dashboard.jsp").forward(request,response);
+            /* set the page's title, tutorials, and categories */
+            request.setAttribute("title", "Admin Dashboard");
+            request.setAttribute("tutorials", tutorials);
+            request.setAttribute("categories", categories);
+            
+            /* forward this response to dashboard.jsp */
+            request.getRequestDispatcher("jsp/dashboard.jsp").forward(request,response);
+        } catch (Exception e) {
+            Logger.log(Logger.Status.ERROR, "Dashboard", e);
+            request.setAttribute("msg", e.getMessage());
+            request.getRequestDispatcher("jsp/error.jsp").forward(request,response);
+        } finally {
+            if (dm != null) { dm.closeConnection(); }
+        }
     }
 
 	/**

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.sql.SQLException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
@@ -25,13 +26,57 @@ import java.util.HashSet;
  * @author Jake Armentrout
  */
  
-/* this servlet is accessed by the url ${context}/tutorialUpdate */
-@WebServlet("/updateTutorial")
+@WebServlet("/api/updatetutorial")
 
 
 public class UpdateTutorial extends HttpServlet {
 
 	/**
+	 * A POST request will update the information for a tutorial.
+	 * @param request HttpServletRequest for the web page
+	 * @param response HttpServletResponse for the request
+	 */
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        
+        PrintWriter out = null;
+        /* used for communicating with tutorialdb */
+        DataModel dm = null;
+
+        try {
+            /* used to write JSON to the page */
+            response.setContentType("application/json");
+            out = response.getWriter();
+            /* request parameters */
+            String id         = request.getParameter("id");
+            String title      = request.getParameter("title");
+            String content    = request.getParameter("content");
+            String categories = request.getParameter("categories");
+            
+            /* invalid tutorial id */
+            if (id == null || id.length() == 0) {
+                throw new TutorialException("null or empty tutorial id");
+            }
+            /* invalid tutorial title */
+            if (title == null || title.length() == 0) {
+                throw new TutorialException("UpdateTutorial doPost - null or empty tutorial title");
+            }
+
+            dm = new DataModel();
+			updateTutorialTable(dm, id, title, content);
+            updateTutorialCategoryTable(dm, id, categories);
+            out.println(Logger.log(Logger.Status.SUCCESS, "Successfully updated tutorial: " + title));
+
+        } catch(TutorialException te) {
+            out.println(Logger.log(Logger.Status.ERROR, te.getMessage()));
+        } catch (Exception e) {
+            out.println(Logger.log(Logger.Status.ERROR, "UpdateTutorial", e));
+        } finally {
+            if (dm != null) { dm.closeConnection(); }
+            out.close();
+        }
+    }
+    
+    /**
 	 * parseCategories will convert a json string to a set of string ints.
 	 * @param json A json string representing an array of category ids
 	 * @return Set<String> A set of category ids
@@ -47,7 +92,7 @@ public class UpdateTutorial extends HttpServlet {
         return categories;
     }
     
-    private void updateTutorialTable(DataModel dm, String id, String title, String content) {
+    private void updateTutorialTable(DataModel dm, String id, String title, String content) throws SQLException {
         /* parameters for the tutorial update statement */
         List<String> statementParameters = new ArrayList<String>();
         statementParameters.add(title);
@@ -59,7 +104,7 @@ public class UpdateTutorial extends HttpServlet {
         dm.closeStatement();
     }
     
-    private void updateTutorialCategoryTable(DataModel dm, String id, String categories) {
+    private void updateTutorialCategoryTable(DataModel dm, String id, String categories) throws SQLException {
         /* get the tutorial and all of its categories */
         List<String> statementParameters = new ArrayList<String>();
         statementParameters.add(id);
@@ -109,49 +154,6 @@ public class UpdateTutorial extends HttpServlet {
             delete = "(" + delete + ")";
             dm.executeUpdate(delete, null);
             dm.closeStatement();
-        }
-    }
-
-	/**
-	 * A POST request will update the information for a tutorial.
-	 * @param request HttpServletRequest for the web page
-	 * @param response HttpServletResponse for the request
-	 */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        /* used to write JSON to the page */
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-        /* used for communicating with tutorialdb */
-        DataModel dm = null;
-
-        try {
-            /* request parameters */
-            String id         = request.getParameter("id");
-            String title      = request.getParameter("title");
-            String content    = request.getParameter("content");
-            String categories = request.getParameter("categories");
-            
-            /* invalid tutorial id */
-            if (id == null || id.length() == 0) {
-                throw new TutorialException("null or empty tutorial id");
-            }
-            /* invalid tutorial title */
-            if (title == null || title.length() == 0) {
-                throw new TutorialException("UpdateTutorial doPost - null or empty tutorial title");
-            }
-
-            dm = new DataModel();
-			updateTutorialTable(dm, id, title, content);
-            updateTutorialCategoryTable(dm, id, categories);
-            out.println(Logger.log(Logger.Status.SUCCESS, "Successfully updated tutorial: " + title));
-
-        } catch(TutorialException te) {
-            out.println(Logger.log(Logger.Status.ERROR, te.getMessage()));
-        } catch (Exception e) {
-            out.println(Logger.log(Logger.Status.ERROR, "UpdateTutorial doPost", e));
-        } finally {
-            if (dm != null) { dm.closeConnection(); }
-            out.close();
         }
     }
 }

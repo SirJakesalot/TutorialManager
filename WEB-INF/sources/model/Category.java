@@ -23,6 +23,8 @@ public class Category {
     public static final String UPDATE_ID = "UPDATE categorys SET name=? WHERE id=?;";
     public static final String DELETE_ID = "DELETE FROM categories WHERE id=?;";
     public static final String SELECT_TUTORIALS = "SELECT * FROM tutorials WHERE id IN (SELECT tutorial_id FROM tutorial_categories WHERE category_id=?) ORDER BY title ASC;";
+    public static final String COUNT_SELECT_NAME = "SELECT COUNT(id) FROM categories WHERE name=?;";
+    public static final String COUNT_SELECT_ID   = "SELECT COUNT(id) FROM categories WHERE id=?;";
 
     /**
      * Category is constructed with a row from a ResultSet that was returned

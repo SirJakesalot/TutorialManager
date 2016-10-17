@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@WebServlet("/file_upload")
+@WebServlet("/api/fileupload")
 @MultipartConfig(fileSizeThreshold=1024*1024*2, // 2MB
                  maxFileSize=1024*1024*10,      // 10MB
                  maxRequestSize=1024*1024*50)   // 50MB
@@ -25,17 +25,18 @@ public class FileUpload extends HttpServlet {
     private static final String SAVE_DIR = "uploads";
 
     // Handles file upload
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/* used for writing the JSON to the page */
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
 		
-        // Gets absolute path of the web application
-        String appPath = request.getServletContext().getRealPath("");
-        // Constructs path of the directory to save uploaded file
-        String savePath = appPath + File.separator + SAVE_DIR;
-
+		PrintWriter out = null;
 		try {
+            /* used for writing the JSON to the page */
+            response.setContentType("application/json");
+            out = response.getWriter();
+            // Gets absolute path of the web application
+            String appPath = request.getServletContext().getRealPath("");
+            // Constructs path of the directory to save uploaded file
+            String savePath = appPath + File.separator + SAVE_DIR;
+            
 			// Creates the save directory if it does not exist
 			File fileSaveDir = new File(savePath);
 			if (!fileSaveDir.exists()) {
@@ -50,8 +51,10 @@ public class FileUpload extends HttpServlet {
 			
 			out.println(Logger.log(Logger.Status.SUCCESS, "FileUpload uploaded " + request.getParts().size() + " files"));
 			out.flush();
-		} catch (Exception e) {
-            out.println(Logger.log(Logger.Status.ERROR, "FileUpload doPost", e));
+        } catch (Exception e) {
+            out.println(Logger.log(Logger.Status.ERROR, "FileUpload", e));
+        } finally {
+            out.close();
         }
     }
     

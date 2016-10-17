@@ -3,6 +3,7 @@ package tutorialdb_api;
 import tutorialdb_model.DataModel;
 import tutorialdb_model.Tutorial;
 import tutorialdb_model.Logger;
+import tutorialdb_model.TutorialException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,62 +22,62 @@ import java.util.ArrayList;
  */
  
 /* this servlet is accessed by the url ${context}/tutorial_select */
-@WebServlet("/tutorialSelect")
+@WebServlet("/api/selecttutorial")
 
 
-public class TutorialSelect extends HttpServlet {
+public class SelectTutorial extends HttpServlet {
 
     /**
 	 * A POST request will gather a tutorial and its associated categories.
 	 * @param request HttpServletRequest for the web page
 	 * @param response HttpServletResponse for the request
 	 */
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        /* used for writing the JSON to the page */
-        response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-		
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter out = null;
 		/* used for communicating with tutorialdb */
-		DataModel dm = new DataModel();
+		DataModel dm = null;
+        
         try {
+            /* used for writing the JSON to the page */
+            response.setContentType("application/json");
+            out = response.getWriter();
+            dm = new DataModel();
+            
             String id = request.getParameter("id");
             /* invalid tutorial id */
             if (id == null || id.length() == 0) {
-				dm.closeConnection();
-                out.println(Logger.log(Logger.Status.ERROR, "TutorialSelect Invalid tutorial id: " + id));
-				out.flush();
-                return;
+                throw new TutorialException("invalid tutorial id: " + id);
             }
 
             /* parameters for tutorial search query */
-            List<String> statement_parameters = new ArrayList<String>();
-            statement_parameters.add(id);
-            List<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_ID, statement_parameters);
+            List<String> statementParameters = new ArrayList<String>();
+            statementParameters.add(id);
+            List<Tutorial> tutorials = dm.getTutorialsForQuery(Tutorial.SELECT_ID, statementParameters);
             dm.closeStatement();
 			
 			/* report error if query was empty */
 			if (tutorials == null || tutorials.isEmpty()) {
-				dm.closeConnection();
-                out.println(Logger.log(Logger.Status.ERROR, "Unable to find tutorial id: " + id));
-				out.flush();
-                return;
+                throw new TutorialException("unable to find tutorial id: " + id);
             }
 			
 			/* only one tutorial should be returned */
             Tutorial tutorial = tutorials.get(0);
 			
 			/* gather all categories associated with the tutorial */
-			statement_parameters = new ArrayList<String>();
-            statement_parameters.add(tutorial.id());
-			tutorial.categories(dm.getCategoriesForQuery(Tutorial.SELECT_CATEGORIES, statement_parameters));
+			statementParameters = new ArrayList<String>();
+            statementParameters.add(tutorial.id());
+			tutorial.categories(dm.getCategoriesForQuery(Tutorial.SELECT_CATEGORIES, statementParameters));
+            dm.closeStatement();
 			
 			/* print tutorial to the screen */
             out.println(tutorial.toJSON());
-
+        } catch(TutorialException te) {
+            out.println(Logger.log(Logger.Status.ERROR, te.getMessage()));
         } catch (Exception e) {
-            out.println(Logger.log(Logger.Status.ERROR, "TutorialSelect doPost", e));
+            out.println(Logger.log(Logger.Status.ERROR, "SelectTutorial", e));
+        } finally {
+            if (dm != null) { dm.closeConnection(); }
+            out.close();
         }
-		dm.closeConnection();
-		out.flush();
     }
 }

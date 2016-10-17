@@ -2,7 +2,7 @@ package tutorialdb_api;
 
 import tutorialdb_model.DataModel;
 import tutorialdb_model.Logger;
-import tutorialdb_model.Tutorial;
+import tutorialdb_model.Category;
 import tutorialdb_model.TutorialException;
 
 import javax.servlet.ServletException;
@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-@WebServlet("/api/deletetutorial")
-public class DeleteTutorial extends HttpServlet {
+@WebServlet("/api/deletecategory")
+public class DeleteCategory extends HttpServlet {
 
     // Deletes tutorial from the database and prints a JSON message
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
@@ -45,7 +45,7 @@ public class DeleteTutorial extends HttpServlet {
             ArrayList<String> statementParameters = new ArrayList<String>();
             statementParameters.add(id);
             
-            int rowsAffected = dm.executeUpdate(Tutorial.DELETE_ID, statementParameters);
+            int rowsAffected = dm.executeUpdate(Category.DELETE_ID, statementParameters);
             dm.closeConnection();
 
             switch (rowsAffected) {
@@ -61,7 +61,7 @@ public class DeleteTutorial extends HttpServlet {
         } catch(TutorialException te) {
             out.println(Logger.log(Logger.Status.ERROR, te.getMessage()));
         } catch (Exception e) {
-            out.println(Logger.log(Logger.Status.ERROR, "DeleteTutorial", e));
+            out.println(Logger.log(Logger.Status.ERROR, "DeleteCategory", e));
         } finally {
             if (dm != null) { dm.closeConnection(); }
             out.close();

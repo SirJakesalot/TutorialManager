@@ -15,7 +15,7 @@ rm redundancy id=info and class=info
 
 <!-- selection of all tutorials in the database -->
 <center>
-  <select id="selectTutorial" onchange="getTutorial(this.value, '${context}/tutorial_select');">
+  <select id="selectTutorial" onchange="getTutorial(this.value, '${context}/api/selecttutorial');">
     <option value="-2"></option>
     <option value="-1">&ltNEW TUTORIAL&gt</option>
       <c:forEach var="tutorial" items="${tutorials}">
@@ -50,25 +50,8 @@ rm redundancy id=info and class=info
   </tr>
   <tr>
     <td><input id="deleteTutorial" type="button" value="Delete Tutorial" onclick="deleteTutorial();" disabled/></td>
-    <td><input id="updateTutorial" type="button" value="Update Tutorial" class="submit" onclick="updateTutorialInfo('${context}/tutorial_update');" disabled/></td>
+    <td><input id="updateTutorial" type="button" value="Update Tutorial" class="submit" onclick="updateTutorialInfo('${context}/api/updatetutorial');" disabled/></td>
   </tr>
 </table>
-<script>
-    function deleteTutorial() {
-		var dashboard_delete_url = "${context}/tutorial_delete"
-        var idval = encodeURIComponent($("#selectTutorial").val());
-        var params = "id=" + idval;
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                console.log(xmlhttp.responseText);
-                var arry = JSON.parse(xmlhttp.responseText);
-                removeTutorialSelect(arry);
-            }
-        };
-        xmlhttp.open("POST", dashboard_delete_url, true);
-        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xmlhttp.send(params);
-    }
-</script>
+
 <%@ include file="footer.jsp" %>

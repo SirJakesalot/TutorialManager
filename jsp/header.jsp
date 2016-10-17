@@ -24,5 +24,5 @@
   <link rel="shortcut icon" type="image/x-icon" href="${context}/css/img/JakesTutorials.bmp" />
 </head>
 <body>
-<%@ include file="navBar.jsp" %>
+<%@ include file="navbar.jsp" %>
 <div id="msgs"></div>

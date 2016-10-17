@@ -11,8 +11,8 @@
       </div>
 	  <input class="fileName" id="${fileName}" type="text" value="${fileName}" />
 	  <div class="actions">
-	    <input class="update" type="submit" value="Update" onclick="updateImage(this, '${context}/images_update');" />
-	    <input class="delete" type="submit" value="Delete" onclick="deleteImage(this, '${context}/images_delete');"/>
+	    <input class="update" type="submit" value="Update" onclick="updateImage(this, '${context}/api/updateimage');" />
+	    <input class="delete" type="submit" value="Delete" onclick="deleteImage(this, '${context}/api/deleteimage');"/>
 	  </div>
     </div>
   </c:forEach>
@@ -24,7 +24,7 @@
 	  </div>
 	</h:form>
 	
-	<input class="submit" type="submit" value="Upload" onclick="fileUpload('${context}/file_upload');"/>
+	<input class="submit" type="submit" value="Upload" onclick="fileUpload('${context}/api/fileupload');"/>
   </div>
 </div>
 <script>

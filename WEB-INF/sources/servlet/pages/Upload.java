@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/upload")
-public class UploadPage extends HttpServlet {
+public class Upload extends HttpServlet {
 
-    // Simple forward to the upload jsp
     // TODO: Get space available
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		/* communicates with tutorialdb */
-        DataModel dm = new DataModel();
+        DataModel dm = null;
 		try {
+            dm = new DataModel();
 			/* gather all navbar category objects */
 			List<Category> categories = GetNavBar.getCategories(dm);
 			
@@ -34,9 +34,9 @@ public class UploadPage extends HttpServlet {
 			request.getRequestDispatcher("jsp/upload.jsp").forward(request, response);
 		} catch (Exception e) {
 			Logger.log(Logger.Status.ERROR, "UploadPage", e);
-		}
-		/* close tutorialdb connection */
-		dm.closeConnection();		
+		} finally {
+            if (dm != null) { dm.closeConnection(); }
+        }		
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

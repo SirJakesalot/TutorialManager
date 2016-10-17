@@ -20,30 +20,20 @@ public class GetNavBar {
 	 * @param dm Uses a DataModel object to communicate with tutorialdb
 	 * @return List<Category> Categories with their associated tutorials
 	 */
-    public static List<Category> getCategories(DataModel dm) {
-		/* safely close any open connections */
+    public static List<Category> getCategories(DataModel dm) throws Exception {
         dm.closeStatement();
-        try {
-			/* query tutorialdb for all available categories */
-            List<Category> categories = dm.getCategoriesForQuery(Category.SELECT_ALL, null);
-			
-			/* categories query for all tutorials they are associated with */
-            List<String> statement_parameters;
-            for (Category category: categories) {
-                dm.closeStatement();
-                statement_parameters = new ArrayList<String>();
-                statement_parameters.add(category.id());
-                category.tutorials(dm.getTutorialsForQuery(Category.SELECT_TUTORIALS, statement_parameters));
-            }
-			
-			/* safely close any open connections and return categories*/
+        /* query tutorialdb for all available categories */
+        List<Category> categories = dm.getCategoriesForQuery(Category.SELECT_ALL, null);
+        
+        /* categories query for all tutorials they are associated with */
+        List<String> statementParameters;
+        for (Category category: categories) {
             dm.closeStatement();
-            return categories;
-        } catch (Exception e) {
-            Logger.log(Logger.Status.ERROR, "GetNavbar getCategories", e);
+            statementParameters = new ArrayList<String>();
+            statementParameters.add(category.id());
+            category.tutorials(dm.getTutorialsForQuery(Category.SELECT_TUTORIALS, statementParameters));
         }
-		/* safely close any open connections */
-		dm.closeStatement();
-        return null;
+        dm.closeStatement();
+        return categories;
     }
 }

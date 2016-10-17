@@ -11,12 +11,10 @@ function msg_appear(span) {
     setTimeout(function() { div.style.display = "block"; }, 600);
 }
 
-function addMsg(json) {
-    var status = json.status;
-    var message = json.message;
-    var $div = $("<div />").addClass(status)
-                           .html(message)
-                           .fadeIn( "slow" );
+function addMsg(stat, msg) {
+    var $div = $("<div />").addClass(stat)
+                           .html(msg)
+                           .fadeIn("slow");
 
     var $span = $('<span />').addClass("closebtn")
                              .html('&times;')
@@ -26,19 +24,19 @@ function addMsg(json) {
     $("#msgs").append($div);
 }
 function addInfoMsg() {
-    addMsg({status: 'info', message: 'info message'});
+    addMsg('info', 'info message');
 }
 function addErrorMsg() {
-    addMsg({status: 'error', message: 'error message'});
+    addMsg('error', 'error message');
 }
 function addWarningMsg() {
-    addMsg({status: 'warning', message: 'warning message'});
+    addMsg('warning', 'warning message');
 }
 function addSuccessMsg() {
-    addMsg({status: 'success', message: 'success message'});
+    addMsg('success', 'success message');
 }
 
-function load_fb() {
+function loadFB() {
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '1417659781582505',

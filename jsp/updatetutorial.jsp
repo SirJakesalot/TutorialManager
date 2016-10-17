@@ -3,7 +3,7 @@
 
 <!-- selection of all tutorials in the database -->
 <center>
-  <select id="selectTutorial" onchange="getTutorial(this.value, '${context}/tutorialSelect');">
+  <select id="selectTutorial" onchange="getTutorial(this.value, '${context}/api/selecttutorial');">
     <option value="-1"></option>
       <c:forEach var="tutorial" items="${tutorials}">
         <option value="${tutorial.id()}">${tutorial.title()}</option>
@@ -36,7 +36,7 @@
     <td><textarea rows="25" id="content" disabled></textarea></td>
   </tr>
   <tr>
-    <td colspan="2"><input class="dashboardAction" type="button" value="Update Tutorial" onclick="updateTutorial('${context}/updateTutorial');"/></td>
+    <td colspan="2"><input class="dashboardAction" type="button" value="Update Tutorial" onclick="updateTutorial('${context}/api/updatetutorial');"/></td>
   </tr>
 </table>
 <%@ include file="footer.jsp" %>

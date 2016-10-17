@@ -20,11 +20,11 @@
       <div>
         <h3>Functions</h3>
         <ul>
-          <li><a href="${context}/addTutorialPage">Add Tutorial</a></li>
-          <li><a href="${context}/updateTutorialPage">Update Tutorial</a></li>
-          <li><a href="${context}/deleteTutorialPage">Del Tutorial</a></li>
-          <li><a href="${context}/addCategoryPage">Add Category</a></li>
-          <li><a href="${context}/deleteCategoryPage">Del Category</a></li>
+          <li><a href="${context}/addtutorial">Add Tutorial</a></li>
+          <li><a href="${context}/updatetutorial">Update Tutorial</a></li>
+          <li><a href="${context}/deletetutorial">Del Tutorial</a></li>
+          <li><a href="${context}/addcategory">Add Category</a></li>
+          <li><a href="${context}/deletecategory">Del Category</a></li>
         </ul>
       </div>
     </li>

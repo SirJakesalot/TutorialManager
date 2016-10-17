@@ -13,10 +13,10 @@ function updateImage(btn, url) {
 }
 
 function handleUpdateImageResponse(response) {
-  if (response.status == undefined) {
-    addErrorMsg("Response does not include a status")
+  if (response.status != undefined && response.message != undefined) {
+    addMsg(response.status, response.message);
   } else {
-    addMsg(response);
+    addErrorMsg("no status response")
   }
 }
 
