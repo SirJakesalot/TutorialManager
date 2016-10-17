@@ -40,7 +40,7 @@ public class TutorialDelete extends HttpServlet {
             ArrayList<String> statement_parameters = new ArrayList<String>();
             statement_parameters.add(id);
             
-            int rows_affected = dm.getAggregateQuery()
+            // int rows_affected = dm.getAggregateQuery()
             int rows_affected = dm.executeUpdate(Tutorial.DELETE_ID, statement_parameters);
             dm.closeConnection();
 

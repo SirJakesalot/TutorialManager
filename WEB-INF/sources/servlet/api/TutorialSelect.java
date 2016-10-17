@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
  
 /* this servlet is accessed by the url ${context}/tutorial_select */
-@WebServlet("/tutorial_select")
+@WebServlet("/tutorialSelect")
 
 
 public class TutorialSelect extends HttpServlet {

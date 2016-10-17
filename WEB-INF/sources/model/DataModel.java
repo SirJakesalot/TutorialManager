@@ -65,14 +65,17 @@ public class DataModel {
     /**
      * Closes any open database connections.
      */
-    public void closeConnection() {
-        try {
-            if (this.rs != null)   { this.rs.close(); }
-            if (this.stmt != null) { this.stmt.close(); }
-            if (this.conn != null) { this.conn.close(); }
-        } catch (SQLException se) {
-            Logger.log(Logger.Status.ERROR, "DataModel closeConnection", se);
-        }
+    public void closeConnection() throws SQLException {
+        // try {
+            // if (this.rs != null)   { this.rs.close(); }
+            // if (this.stmt != null) { this.stmt.close(); }
+            // if (this.conn != null) { this.conn.close(); }
+        // } catch (SQLException se) {
+            // Logger.log(Logger.Status.ERROR, "DataModel closeConnection", se);
+        // }
+        if (this.rs != null)   { this.rs.close(); }
+        if (this.stmt != null) { this.stmt.close(); }
+        if (this.conn != null) { this.conn.close(); }
     }
 
     /**

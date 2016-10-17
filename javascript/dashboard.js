@@ -1,10 +1,7 @@
 function getTutorial(id, url) {
-  if (id == "-2") {
+  if (id == "-1") {
 	resetTutorial();
 	$(".tableTutorial :input").prop("disabled", true);
-  } else if (id == "-1") {
-    resetContent();
-    $(".tableTutorial :input").prop("disabled", false);
   } else {
 	resetCategories();
 	var params = {id:id};
@@ -48,7 +45,7 @@ function resetCategories() {
   $("#tutorialCategories :input").prop("checked", false);
 }
 
-function updateTutorialInfo(url) {
+function updateTutorial(url) {
   var id = $("#selectTutorial").val();
   var title = $("#title").val();
   var content = $("#content").val();
@@ -74,3 +71,36 @@ function handleUpdateTutorialResponse(response) {
 	addMsg({status: "ERROR", message: "Non-status response"});
   }
 }
+
+
+
+
+function addTutorial(url) {
+  var title = $("#title").val();
+  var content = $("#content").val();
+  var categories = [];
+  $("#categories input:checked").each(function() {
+    categories.push(Number($(this).val()));
+  });
+  
+  if (title) {
+    var params = {title: title, content: content, categories: JSON.stringify(categories)};
+    var request = $.ajax({
+	  url: url,
+	  type: "post",
+	  data: params,
+	  datatype: "json",
+	  contenttype: "application/x-www-form-urlencoded; charset=utf-8"
+    });
+    request.done(handleAddTutorialResponse);
+  }
+}
+function handleAddTutorialResponse(response) {
+  console.log(JSON.stringify(response));
+  if (response.status != undefined) {
+    addMsg(response);
+  } else {
+	addMsg({status: "ERROR", message: "No status response"});
+  }
+}
+

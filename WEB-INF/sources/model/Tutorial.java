@@ -26,7 +26,12 @@ public class Tutorial {
     public static final String INSERT       = "INSERT INTO tutorials(title,content) VALUES (?,COMPRESS(?));";
     public static final String UPDATE_ID    = "UPDATE tutorials SET title=?,content=COMPRESS(?) WHERE id=?;";
     public static final String DELETE_ID    = "DELETE FROM tutorials WHERE id=?;";
-    public static final String SELECT_CATEGORIES = "SELECT * FROM categories WHERE id IN (SELECT category_id FROM tutorial_categories WHERE tutorial_id=?) ORDER BY name ASC;";
+    public static final String SELECT_CATEGORIES  = "SELECT * FROM categories WHERE id IN (SELECT category_id FROM tutorial_categories WHERE tutorial_id=?) ORDER BY name ASC;";
+    public static final String INSERT_CATEGORY    = "INSERT INTO tutorial_categories (tutorial_id, category_id) VALUES (?,?);";
+    public static final String COUNT_SELECT_TITLE = "SELECT COUNT(id) FROM tutorials WHERE title=?;";
+    public static final String COUNT_SELECT_ID    = "SELECT COUNT(id) FROM tutorials WHERE id=?;";
+    public static final String BATCH_INSERT_CATEGORIES = "INSERT INTO tutorial_categories (tutorial_id, category_id) VALUES ";
+    public static final String BATCH_DELETE_CATEGORIES = "DELETE FROM tutorial_categories WHERE (tutorial_id, category_id) in ";
 
     /**
      * Tutorial is constructed with a row from a ResultSet that was returned
