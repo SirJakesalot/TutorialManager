@@ -6,19 +6,19 @@
 .nav li { list-style: none; }
 
 .nav {
-	display: inline-block;
-	position: relative;
-	z-index: 500;
+  min-width: 840px;
+  display: inline-block;
+  position: relative;
+  z-index: 500;
 }
 
 .nav > li {
-	display: block;
-	float: left;
-}
-.nav img {
-  height: 50px;
+  display: block;
+  float: left;
 }
 .nav > li > a {
+  width: 112px;
+  text-align: center;
   position: relative;
   display: block;
   z-index: 510;
@@ -45,6 +45,7 @@
 }
 
 .nav > li > div {
+  width: 100%;
   position: absolute;
   display: block;
   top: 50px;
@@ -54,11 +55,16 @@
   background: #ffffff;
   border: 1px solid black; 
   border-radius: 0 0 3px 3px;
-  -webkit-transition: all .3s ease .15s;
-  -moz-transition: all .3s ease .15s;
-  -o-transition: all .3s ease .15s;
-  -ms-transition: all .3s ease .15s;
-  transition: all .3s ease .15s;
+}
+
+/* this could be done better */
+.nav li:nth-child(4) div {
+  width: calc(152px - 5%);
+}
+
+.nav > li > div.megaMenu {
+  width: calc(95% - 2px);   
+  left: 0;
 }
 
 .nav > li:hover > div {

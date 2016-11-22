@@ -146,12 +146,11 @@ public class UpdateTutorial extends HttpServlet {
         categoriesToDelete.removeAll(newCategories);
         if (categoriesToDelete != null && categoriesToDelete.size() > 0) {
             /* batch delete each category */
-            String delete = Tutorial.BATCH_DELETE_CATEGORIES;
+            String delete = Tutorial.BATCH_DELETE_CATEGORIES + "(";
             for (String category: categoriesToDelete) {
                 delete += "(" + tutorial.id() + "," + category + "),";
             }
-            delete = delete.substring(0, delete.length() - 1);
-            delete = "(" + delete + ")";
+            delete = delete.substring(0, delete.length() - 1) + ")";
             dm.executeUpdate(delete, null);
             dm.closeStatement();
         }

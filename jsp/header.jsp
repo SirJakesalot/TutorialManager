@@ -7,18 +7,19 @@
 <%@ page import="tutorialdb_model.Tutorial"%>
 
 <c:set var="context" value="${pageContext.request.contextPath}" />
-
 <html>
 <head>
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
   <script type='text/javascript' language="javascript" src="${context}/javascript/general.js"></script>
   <script type='text/javascript' language="javascript" src="${context}/javascript/images.js"></script>
   <script type='text/javascript' language="javascript" src="${context}/javascript/dashboard.js"></script>
+  <script type='text/javascript' language="javascript" src="${context}/javascript/ace-builds/src-noconflict/ace.js"></script>
   <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   <link rel="stylesheet" href="${context}/css/images.css" type="text/css" media="screen, projection"/>
   <link rel="stylesheet" href="${context}/css/dashboard.css" type="text/css" media="screen, projection"/>
-  <link rel="stylesheet" href="${context}/css/sidebar.css" type="text/css" media="screen, projection"/>
-  <link rel="stylesheet" href="${context}/css/navBar.css" type="text/css" media="screen, projection"/>
+  <link rel="stylesheet" href="${context}/css/navbar.css" type="text/css" media="screen, projection"/>
   <link rel="stylesheet" href="${context}/css/general.css" type="text/css" media="screen, projection"/>
   <title>${title}</title>
   <link rel="shortcut icon" type="image/x-icon" href="${context}/css/img/JakesTutorials.bmp" />

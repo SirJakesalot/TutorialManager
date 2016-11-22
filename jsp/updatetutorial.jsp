@@ -11,7 +11,7 @@
   </select>
 </center>
 
-<!-- table with a tutorial's modifiable fields -->
+<!-- table with a tutorials modifiable fields -->
 <table class="tableTutorial">
   <tr>
     <th>Id</th>
@@ -33,10 +33,25 @@
   </tr>
   <tr>
     <th>Content</th>
-    <td><textarea rows="25" id="content" disabled></textarea></td>
+    <!--<td><textarea rows="25" disabled><pre id="content" class="prettyprint lang-html"></pre></textarea></td>-->
+    <td><div id="editorPage"><div id="editor"></div></div></td>
   </tr>
   <tr>
     <td colspan="2"><input class="dashboardAction" type="button" value="Update Tutorial" onclick="updateTutorial('${context}/api/updatetutorial');"/></td>
   </tr>
 </table>
+
+<script>
+  $(document).ready(function() {
+    var editor = ace.edit("editor");
+    editor.getSession().setMode("ace/mode/html");
+    editor.$blockScrolling = Infinity;
+    $( "#editorPage" ).resizable({
+      resize: function( event, ui ) {
+        editor.resize();
+      }
+    });
+  });
+</script>
+
 <%@ include file="footer.jsp" %>

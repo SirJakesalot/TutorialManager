@@ -25,7 +25,10 @@ function handleSelectTutorialResponse(response) {
 	$(".tableTutorial :input").prop("disabled", false);
     $("#id").html(response.id);
     $("#title").val(response.title);
-    $("#content").val(response.content);
+    //$("#content").val(response.content);
+    var editor = ace.edit("editor");
+    editor.getSession().setValue(response.content);
+    editor.resize();
     $(response.categories).each(function() {
       $("#cat_" + this.id).prop("checked", true);
     });
@@ -39,7 +42,9 @@ function resetTutorial() {
 function resetContent() {
   $("#id").html("");
   $("#title").val("");
-  $("#content").val("");
+  //$("#content").val("");
+  var editor = ace.edit("editor");
+  editor.getSession().setValue("");
   resetCategories();
 }
 
@@ -50,7 +55,9 @@ function resetCategories() {
 function updateTutorial(url) {
   var id = $("#selectTutorial").val();
   var title = $("#title").val();
-  var content = $("#content").val();
+  //var content = $("#content").val();
+  var editor = ace.edit("editor");
+  var content = editor.getSession().getValue();
   var categories = [];
   $("#tutorialCategories input:checked").each(function() {
     categories.push(Number($(this).val()));
@@ -76,7 +83,9 @@ function handleUpdateTutorialResponse(response) {
 
 function addTutorial(url) {
   var title = $("#title").val();
-  var content = $("#content").val();
+  //var content = $("#content").val();
+  var editor = ace.edit("editor");
+  var content = editor.getSession().getValue();
   var categories = [];
   $("#categories input:checked").each(function() {
     categories.push(Number($(this).val()));

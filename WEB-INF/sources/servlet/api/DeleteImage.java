@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /* this servlet is accessed by the url ${context}/images_delete */
-@WebServlet("/deleteimage")
+@WebServlet("/api/deleteimage")
 
 
 public class DeleteImage extends HttpServlet {

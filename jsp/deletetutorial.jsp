@@ -7,9 +7,7 @@
         <option value="${tutorial.id()}">${tutorial.title()}</option>
       </c:forEach>
   </select>
+  <input id="deleteTutorial" class="dashboardAction" type="button" value="Delete Tutorial" onclick="deleteTutorial('${context}/api/deletetutorial');" disabled />
 </center>
-    <input id="deleteTutorial" class="dashboardAction" type="button" value="Delete Tutorial" onclick="deleteTutorial('${context}/api/deletetutorial');" disabled />
-  </tr>
-</table>
 
 <%@ include file="footer.jsp" %>
